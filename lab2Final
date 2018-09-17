@@ -1,0 +1,119 @@
+---
+title: "lab2"
+author: "Matt"
+date: "September 13, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Team Members:
+1. Matt Kohane
+2. Karthik Subbarao
+
+
+
+
+##Lab 2
+##Team Question Set
+
+
+```{r}
+nrow(choco)
+
+```
+
+
+```{r}
+choco <- read.csv("https://ds202-at-isu.github.io/labs/data/choco.csv")
+head(choco)
+
+
+
+library(ggplot2)
+
+
+
+nrow(choco)
+
+summary(choco$Review.Date)
+
+sum(choco$Review.Date == 2006)
+
+
+count = c()
+k = 1
+for (i in 2006: 2017){
+  count[k] = sum(choco$Review.Date == i)
+  k = k + 1
+  
+}
+
+
+year = c(2006: 2017)
+DataYear = cbind(year, count)
+
+
+ggplot(data = as.data.frame(DataYear), aes(x = year, y = count)) + geom_bar(stat = "Identity")
+  
+
+
+```
+## Individual Question Set
+## 1.1
+```{r}
+
+library(ggplot2)
+ggplot(data = choco, aes(Rating)) + geom_histogram()
+
+```
+
+## Based on the rating versus count histogram above, we can see that there a few outliers.  One at rating of 1 and one at rating 5.  Given the distribution of a normal curve, there will be outliers at the lower and upper bounds of the curve.
+
+
+## 1.2
+
+```{r}
+
+library(ggplot2)
+ggplot(data = choco, aes(x =(Rating), y = (Cocoa.Pct))) + geom_bar(stat = "identity")
+```
+```{r}
+library(ggplot2)
+ggplot(data = choco, aes(x = Rating, y = Cocoa.Pct)) + geom_point()
+```
+
+## To an extent the cocoa percent does determine the rating.  Observing the scatterplot above, we see that in a vast majority of cases if the cookie has a cocoa percentage between 60 and 80 percent the cookie will on average have a raing between 2-4.  So essentially, when controlling for a percentage that is between 60 and 80 percent cocoa your cookie will have a rating between 2 and 4 in MOST cases.
+
+
+## 3
+```{r}
+locations <- dplyr::filter(choco, Company.Location %in% c("U.S.A.", "France", "Canada"))
+
+ggplot(data = locations, aes(x = Company.Location, y = Rating)) + geom_point()
+
+
+
+```
+
+## USA has the highest variation.  France has the second most variation and Canada has the least variation.
+
+
+
+## Team Question
+
+## Question: What is the relation between rating and review data/year?
+
+
+```{r}
+library(ggplot2)
+ggplot(data = choco, aes(x = Review.Date, y = Rating)) + geom_point()
+```
+
+
+## Answer: Over time the average rating improves.  As we see in the above scatterplot, the lower ratings are getting better and the average rating is increasing over time.  
+
+
+
