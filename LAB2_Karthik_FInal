@@ -1,0 +1,68 @@
+lab2
+Karthik
+
+September 13, 2018
+
+#Team attempt
+library(ggplot2)
+choco <- read.csv("https://ds202-at-isu.github.io/labs/data/choco.csv")
+head(choco)
+##    Company Specific.Bean.Origin  REF Review.Date Cocoa.Pct
+## 1 A. Morin          Agua Grande 1876        2016        63
+## 2 A. Morin                Kpime 1676        2015        70
+## 3 A. Morin               Panama 1011        2013        70
+## 4 A. Morin           Madagascar 1011        2013        70
+## 5 A. Morin               Brazil 1011        2013        70
+## 6 A. Morin             Equateur 1011        2013        70
+##   Company.Location Rating Bean.Type Broad.Bean.Origin
+## 1           France   3.75                    Sao Tome
+## 2           France   2.75                        Togo
+## 3           France   2.75                      Panama
+## 4           France   3.00   Criollo        Madagascar
+## 5           France   3.25                      Brazil
+## 6           France   3.75                     Ecuador
+nrow(choco)
+## [1] 1852
+summary(choco$Review.Date)
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    2006    2010    2013    2012    2015    2017
+count = c()
+k =1
+for (i in 2006:2017){
+  count[k] = sum(choco$Review.Date ==i)
+  k=k+1
+}
+
+year = c(2006:2017)
+DataYear =cbind(year,count)
+
+ggplot(data=as.data.frame(DataYear), aes(x=year, y=count)) + geom_bar(stat="identity")
+
+
+#individual attempt
+library(ggplot2)
+choco <- read.csv("https://ds202-at-isu.github.io/labs/data/choco.csv")
+
+#1) the histogram shows the average between 3 and 3.5. the outliers are 1 and 5
+ggplot(data= choco, aes(Rating)) + geom_histogram()
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+
+#2) To an extent the rating does matter for cocoa percentage but not all bars with high percentage hadhigh ratings. There are excpetions
+ggplot(data= choco, aes(x=Rating, y=Cocoa.Pct)) + geom_point()
+
+
+#3) USA has the variatiation, france has the second least, and canada has the least
+locations <-dplyr::filter(choco, Company.Location %in% c("U.S.A.", "France", "Canada"))
+
+ggplot(data= locations, aes(x=Company.Location, y=Rating)) + geom_point()
+
+
+#Your own question?
+library(ggplot2)
+choco <- read.csv("https://ds202-at-isu.github.io/labs/data/choco.csv")
+
+# Our question is to find the relationship between Rating and Review.Date 
+# What we found was that as the years progessed the lower rating got increased, but the max rating stayed at 4
+# Over time the average rating got better
+ggplot(data= choco, aes(y=Rating, x=Review.Date)) + geom_point()
